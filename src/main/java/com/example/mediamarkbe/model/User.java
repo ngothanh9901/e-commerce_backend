@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
 @Data
@@ -17,7 +19,7 @@ import javax.validation.constraints.NotBlank;
 public class User extends UserDateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
+    private Long id;
 
     @Size(max=200)
     private String name;
@@ -28,9 +30,8 @@ public class User extends UserDateAudit {
     @NotBlank
     @Size(max=100)
     private String password;
-    @ManyToOne
-    @JoinColumn(name = "user_role_id", referencedColumnName = "id")
-    private UserRole userRole;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Collection<Role> roles = new ArrayList<>();
     @Column(name = "login_times")
     private Integer loginTimes = 0;
 

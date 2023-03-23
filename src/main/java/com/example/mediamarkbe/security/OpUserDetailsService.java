@@ -24,7 +24,6 @@ public class OpUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // Let people login with either username or email
-//        Optional<User> user = userRepository.findByUsernameIgnoreCaseAndDeletedFalse(username);
         Optional<User> user = userRepository.findByUsernameIgnoreCase(username);
         user.orElseThrow(() ->
                 new UsernameNotFoundException("User not found with username or email : " + username)

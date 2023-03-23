@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRole extends DateAudit {
+public class Role extends DateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", insertable = false, nullable = false)
@@ -24,7 +24,7 @@ public class UserRole extends DateAudit {
     @Column(name = "name",unique = true)
     private String name;
 
-    public UserRole(String code, String name) {
+    public Role(String code, String name) {
         this.code = code;
         this.name = name;
     }

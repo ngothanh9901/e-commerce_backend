@@ -1,5 +1,6 @@
 package com.example.mediamarkbe.security;
 
+import com.example.mediamarkbe.model.Role;
 import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
@@ -11,6 +12,8 @@ import com.example.mediamarkbe.model.User;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.stream.Collectors;
+
 @ToString
 @Builder
 @Data
@@ -20,10 +23,11 @@ public class UserPrincipal implements UserDetails {
     private Collection<? extends GrantedAuthority> authorities;
 
     public static UserPrincipal create(User user) {
-        String role = user.getUserRole() != null ? user.getUserRole().getName() : "anonym";
+        Collection<Role> roles = user.getRoles() != null ? user.getRoles():null;
         return UserPrincipal.builder()
                 .user(user)
-                .authorities(Collections.singletonList(new SimpleGrantedAuthority(role)))
+                .authorities(roles.stream().map(role -> {return new SimpleGrantedAuthority(role.getName());
+                }).collect(Collectors.toList()))
                 .build();
     }
 

@@ -1,9 +1,12 @@
 package com.example.mediamarkbe.config;
 
+import com.example.mediamarkbe.filter.CustomAuthenticationFilter;
+import com.example.mediamarkbe.filter.CustomAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -16,15 +19,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import javax.servlet.http.HttpServletResponse;
-
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailService;
-
-
-
     @Autowired
     @Qualifier("defaultAuthProvider")
     private AuthenticationProvider defaultAuthProvider;
@@ -52,46 +50,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-//        httpSecurity.cors().and().
-//                csrf().disable()
-//                .authorizeRequests().antMatchers("/**").permitAll().anyRequest().authenticated().and()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
+        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
+        customAuthenticationFilter.setFilterProcessesUrl("/api/login");
 
         httpSecurity.csrf().disable();
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-//        httpSecurity.authorizeRequests()
-//                .antMatchers("/api/cv/add").permitAll()
-//                .antMatchers("/api/user/register").permitAll()
-//                .antMatchers("/api/auth/**").permitAll()
-//                .antMatchers("/api/user/**").hasRole("ADMIN")
-//                .antMatchers("/api/job/**").authenticated()
-//             //   .antMatchers("/api/cv/**").permitAll()
-//                .antMatchers("/api/**").authenticated()
-////                .antMatchers("/api/user/createRole").authenticated()
-////                .antMatchers("/api/user/createRole").permitAll()
-////                .antMatchers("/swagger-ui/*").permitAll()
-//                .anyRequest().authenticated();
+        httpSecurity.authorizeRequests().antMatchers("/api/login").permitAll();
+        httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET,"/api/user/**").hasAuthority("ROLE_USER");
+        httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST,"/api/user/**").hasAuthority("ROLE_ADMIN");
+        httpSecurity.authorizeRequests().anyRequest().authenticated();
 
-        httpSecurity.authorizeRequests()
-                .anyRequest().permitAll();
-
-
-        httpSecurity.exceptionHandling()
-                .authenticationEntryPoint(
-                        (request, response, ex) -> {
-                            response.sendError(
-                                    HttpServletResponse.SC_UNAUTHORIZED,
-                                    ex.getMessage()
-                            );
-                        }
-                );
-
-//        httpSecurity.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
-
-
-
+        httpSecurity.addFilter(customAuthenticationFilter);
+        httpSecurity.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override

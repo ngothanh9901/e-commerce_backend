@@ -16,10 +16,6 @@ import java.util.List;
 @Configuration
 //@EnableSwagger2
 public class SpringFoxConfig {
-
-
-
-
     @Bean
     public Docket api() {
         List<RequestParameter> auth = new ArrayList<>();
@@ -31,7 +27,6 @@ public class SpringFoxConfig {
                 .build()
                 .globalRequestParameters(auth);
     }
-
     private RequestParameter authorizationHeader() {
 
         return new RequestParameterBuilder()
@@ -41,41 +36,4 @@ public class SpringFoxConfig {
                 .required(false)
                 .build();
     }
-
-
-
-
-//    @Bean
-//    public Docket api() {
-//        List<Parameter> parameters = new ArrayList<Parameter>() {{
-//            add(new ParameterBuilder()
-//                    .name("Authorization")
-//                    .modelRef(new ModelRef("string"))
-//                    .parameterType("header")
-//                    .defaultValue("token")
-//                    .required(true)
-//                    .build());
-//            add(new ParameterBuilder()
-//                    .name("Accept-Language")
-//                    .modelRef(new ModelRef("string"))
-//                    .parameterType("header")
-//                    .defaultValue("vi")
-//                    .required(true)
-//                    .build());
-//        }};
-//        return new Docket(DocumentationType.SWAGGER_2).select()
-//                .apis(RequestHandlerSelectors.basePackage("com.example.cvbackend"))
-//                .paths(PathSelectors.any())
-//                .build()
-//                .pathMapping("")
-//                .globalOperationParameters(parameters);
-//    }
-//            @Bean
-//            public Docket api() {
-//                return new Docket(DocumentationType.SWAGGER_2)
-//                .select()
-//                .apis(RequestHandlerSelectors.any())
-//                .paths(PathSelectors.any())
-//                .build();
-//            }
 }
