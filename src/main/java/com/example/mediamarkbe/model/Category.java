@@ -5,26 +5,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-
-@Data
 @Entity
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Role extends DateAudit {
+public class Category extends DateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "code",unique = true)
-    private String code;
-
-    @Column(name = "name",unique = true)
     private String name;
+    private String description;
 
-    public Role(String code, String name) {
-        this.code = code;
-        this.name = name;
-    }
 }

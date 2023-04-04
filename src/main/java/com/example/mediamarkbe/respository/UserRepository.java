@@ -2,6 +2,7 @@ package com.example.mediamarkbe.respository;
 
 
 import com.example.mediamarkbe.model.User;
+import com.example.mediamarkbe.respository.CustomRepository.CustomizedUserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,9 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long>{
-    Optional<User> findByUsernameIgnoreCaseAndDeletedFalse(String username);
-
+public interface UserRepository extends JpaRepository<User, Long>, CustomizedUserRepository {
     Optional<User> findByUsernameIgnoreCase(String username);
-
 }

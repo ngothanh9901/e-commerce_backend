@@ -1,7 +1,6 @@
-package com.example.mediamarkbe.dto;
+package com.example.mediamarkbe.dto.payload;
 
 import com.example.mediamarkbe.model.Role;
-import com.example.mediamarkbe.model.User;
 import lombok.Data;
 
 @Data

@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Component
 public class JwtTokenUtil {
 
-    private static final long EXPIRE_DURATION = 3 * 60 * 1000;
+    private static final long EXPIRE_DURATION = 24 * 60 * 60 * 1000;
 
     private static final String SECRET_KEY = "secret";
 

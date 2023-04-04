@@ -7,24 +7,21 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Role extends DateAudit {
+public class OrderDetail extends DateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "code",unique = true)
-    private String code;
-
-    @Column(name = "name",unique = true)
-    private String name;
-
-    public Role(String code, String name) {
-        this.code = code;
-        this.name = name;
-    }
+    private String note ;
+    private Double price;
+    private Long quantity;
+    @ManyToOne
+    @JoinColumn(name = "order_id",referencedColumnName = "id")
+    private Orders order;
+    @ManyToOne
+    @JoinColumn(name = "product_id",referencedColumnName = "id")
+    private Product product;
 }

@@ -1,4 +1,4 @@
-package com.example.mediamarkbe.dto;
+package com.example.mediamarkbe.dto.payload;
 
 import com.example.mediamarkbe.model.User;
 import lombok.AllArgsConstructor;
