@@ -50,7 +50,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-    private ProductResponse mapToDTO (Product product){
+    public ProductResponse mapToDTO (Product product){
         ProductResponse productResponse = new ProductResponse();
         productResponse.setPrice(product.getPrice());
         productResponse.setName(product.getName());

@@ -21,8 +21,15 @@ public class ProductController {
     public ResponseObject<ProductResponse> getProducts(FilterProductDTO payload, Pageable pageable){
         return productService.findProduct(payload,pageable);
     }
+
     @PostMapping
     public ResponseEntity<Product> add(@RequestBody ProductPayload payload){
-        return null;
+        Product product = productService.add(payload,null);
+        return ResponseEntity.ok(product);
+    }
+    @PutMapping
+    public ResponseEntity<Product> update(@RequestBody ProductPayload payload){
+        Product product = productService.add(payload, payload.getId());
+        return ResponseEntity.ok(product);
     }
 }

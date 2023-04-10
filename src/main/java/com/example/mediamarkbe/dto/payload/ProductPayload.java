@@ -7,6 +7,7 @@ import java.util.List;
 
 @Data
 public class ProductPayload {
+    private Long id;
     private String name;
     private String shortDes;
     private String description;

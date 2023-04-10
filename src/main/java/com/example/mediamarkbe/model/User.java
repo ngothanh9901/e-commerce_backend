@@ -36,4 +36,9 @@ public class User extends UserDateAudit {
     private Integer loginTimes = 0;
 
     private int loginFailedTimes = 0;
+
+    public User(Long id, String username){
+        this.id=id;
+        this.username=username;
+    }
 }

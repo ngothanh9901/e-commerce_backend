@@ -23,7 +23,6 @@ public class SecurityAuditorAware implements AuditorAware<Long> {
                 || !authentication.isAuthenticated()) {
             return Optional.empty();
         }
-
         return Optional.of(((UserPrincipal) authentication.getPrincipal()).getId());
     }
 }

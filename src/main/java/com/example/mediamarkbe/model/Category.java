@@ -22,4 +22,11 @@ public class Category extends DateAudit {
     private String name;
     private String description;
 
+    public  Category convertToModel(Category category){
+
+        category.setName(this.getName());
+        category.setDescription(this.getDescription());
+        return category;
+    }
+
 }

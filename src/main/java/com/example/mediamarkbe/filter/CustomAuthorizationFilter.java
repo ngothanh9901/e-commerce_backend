@@ -1,5 +1,7 @@
 package com.example.mediamarkbe.filter;
 
+import com.example.mediamarkbe.model.User;
+import com.example.mediamarkbe.security.UserPrincipal;
 import com.example.mediamarkbe.util.JwtTokenUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -32,13 +34,15 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
                 String[] subject = JwtTokenUtil.getSubject(token).split(",");
                 String username = subject[1];
+                Long id = Long.valueOf(subject[0]);
                 List<String> roles= (List<String>) JwtTokenUtil.getRoles(token);
 
 //                Set authorities and roles
                 Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
                 roles.stream().forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
+                UserPrincipal userPrincipal = UserPrincipal.create(new User(id,username));
 
-                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,null,authorities);
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userPrincipal,null,authorities);
 
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
