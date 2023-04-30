@@ -6,6 +6,6 @@ import java.util.List;
 @Data
 public class AddingToCartPayload {
     private Long productId;
-    private Long userId;
+//    private Long userId;
 
 }

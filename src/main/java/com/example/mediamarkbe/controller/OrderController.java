@@ -3,7 +3,6 @@ package com.example.mediamarkbe.controller;
 import com.example.mediamarkbe.dto.CartResponse;
 import com.example.mediamarkbe.dto.payload.AddingToCartPayload;
 import com.example.mediamarkbe.dto.payload.UpdateCartPayload;
-import com.example.mediamarkbe.model.User;
 import com.example.mediamarkbe.security.UserPrincipal;
 import com.example.mediamarkbe.service.OrderService;
 import lombok.AllArgsConstructor;
@@ -20,7 +19,9 @@ public class OrderController {
     private final OrderService orderService;
     @PostMapping
     public ResponseEntity<String> addToCart (@RequestBody AddingToCartPayload payload){
-        orderService.addToCart(payload);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        orderService.addToCart(payload,userPrincipal.getUser().getId());
         return ResponseEntity.ok("Add success");
     }
 

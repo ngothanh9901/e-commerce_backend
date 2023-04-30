@@ -30,7 +30,7 @@ public class ProductServiceImpl implements ProductService {
     public ResponseObject<ProductResponse> findProduct(FilterProductDTO payload, Pageable pageable) {
         Page<Product> data = productRepository.findProduct(payload,pageable);
         List<ProductResponse> content = data.getContent().stream().map(p->mapToDTO(p)).collect(Collectors.toList());
-        ResponseObject<ProductResponse> responseObject = new ResponseObject<>(content,data.getNumber(),data.getSize(),
+        ResponseObject<ProductResponse> responseObject = new ResponseObject<>(content,data.getNumber()+1,data.getSize(),
                 data.getTotalElements(),data.getTotalPages(),data.isLast());
 
         return responseObject;
@@ -56,6 +56,7 @@ public class ProductServiceImpl implements ProductService {
         productResponse.setName(product.getName());
         productResponse.setImageLink(product.getImageLink());
         productResponse.setShortDes(product.getShortDes());
+        productResponse.setId(product.getId());
         return productResponse;
     }
 }

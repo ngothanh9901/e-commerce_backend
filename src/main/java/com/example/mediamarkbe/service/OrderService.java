@@ -5,7 +5,7 @@ import com.example.mediamarkbe.dto.payload.AddingToCartPayload;
 import com.example.mediamarkbe.dto.payload.UpdateCartPayload;
 
 public interface OrderService {
-    CartResponse addToCart(AddingToCartPayload payload);
+    CartResponse addToCart(AddingToCartPayload payload,Long userId);
     CartResponse getCart(Long id);
     CartResponse updateCart(UpdateCartPayload payload, Long userId);
     CartResponse deleteCart(Long productCartId, Long userId);

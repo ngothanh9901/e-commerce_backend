@@ -31,11 +31,10 @@ public class OrderServiceImpl implements OrderService{
     private final OrderDetailRepository orderDetailRepository;
     private final ProductService productService;
     @Transactional
-    public CartResponse addToCart(AddingToCartPayload payload){
+    public CartResponse addToCart(AddingToCartPayload payload,Long userId){
         Long productId = payload.getProductId();
         Product product = productRepository.findById(productId).get();
 
-        Long userId = payload.getUserId();
         User user = userRepository.findById(userId).get();
 
         Orders order = orderRepository.existsByStatusAndUser(false,user)? orderRepository.findByStatusAndUser(false,user) : orderRepository.save(new Orders(user));
