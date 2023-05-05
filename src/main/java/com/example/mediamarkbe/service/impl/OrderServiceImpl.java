@@ -55,6 +55,7 @@ public class OrderServiceImpl implements OrderService{
 
         if(check){
             Orders orders = orderRepository.findByStatusAndUser(false,user);
+            Long idOrder = orders.getId();
             List<OrderDetail> orderDetailList = orders.getOrderDetailList();
 
             List<ProductCartResponse> productList = orderDetailList.stream().map(x->{
@@ -66,7 +67,7 @@ public class OrderServiceImpl implements OrderService{
 
             double sum = productList.stream().mapToDouble(p->{return p.getQuantity()*p.getPrice();}).sum();
 
-            return new CartResponse(productList,sum);
+            return new CartResponse(productList,sum,idOrder);
         }
         return new CartResponse();
     }
@@ -79,5 +80,10 @@ public class OrderServiceImpl implements OrderService{
     public CartResponse deleteCart(Long productCartId, Long userId){
         orderDetailRepository.deleteById(productCartId);
         return getCart(userId);
+    }
+    @Transactional
+    public void payment(Long idOrder){
+        Orders order = orderRepository.findById(idOrder).get();
+        order.setStatus(true);
     }
 }

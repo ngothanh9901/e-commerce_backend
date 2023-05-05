@@ -43,4 +43,11 @@ public class OrderController {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         return orderService.deleteCart(id, userPrincipal.getUser().getId());
     }
+//    @DeleteMapping("/cart/{idOrder}")
+//    public ResponseEntity<String> payment(@PathVariable("idOrder") Long idOrder){
+//        orderService.payment(idOrder);
+//        return ResponseEntity.ok("Payment successfully");
+//    }
+
+
 }

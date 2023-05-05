@@ -9,4 +9,5 @@ public interface OrderService {
     CartResponse getCart(Long id);
     CartResponse updateCart(UpdateCartPayload payload, Long userId);
     CartResponse deleteCart(Long productCartId, Long userId);
+    void payment(Long idOrder);
 }

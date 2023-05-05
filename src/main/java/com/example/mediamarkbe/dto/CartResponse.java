@@ -11,4 +11,5 @@ import java.util.List;
 public class CartResponse {
     private List<ProductCartResponse> products;
     private Double sum;
+    private Long idOrder;
 }
