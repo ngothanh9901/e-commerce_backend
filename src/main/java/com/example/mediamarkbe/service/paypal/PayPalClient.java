@@ -28,10 +28,6 @@ public class PayPalClient {
     private String clientId = "AYNPom_WbRcp9PsMzOEOmCqvdhGf2P9sL0q3askXLa7gH6KSWxBO1XYvVBtijbwn0EV0HcrcVPWXbLTk";
     private String clientSecret = "EI-kHMtmPWuh4iZDIG8_gfCQL56dhYzGcidIRErgNJSCq3b77rja1SPej-z3cOPOLuhFizNCECIFt9Do";
 
-
-//    @Autowired
-//    PayPalClient(){}
-
     public Map<String, Object> createPayment(String sum,Long idOrder){
         Map<String, Object> response = new HashMap<String, Object>();
         Amount amount = new Amount();
@@ -96,9 +92,6 @@ public class PayPalClient {
                 Orders order = orderRepository.findById(idOrder).get();
                 order.setStatus(true);
                 orderRepository.save(order);
-
-
-//                response.put("payment", createdPayment);
             }
         } catch (PayPalRESTException e) {
             System.err.println(e.getDetails());

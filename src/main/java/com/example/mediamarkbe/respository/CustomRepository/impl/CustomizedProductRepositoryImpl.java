@@ -21,14 +21,24 @@ public class CustomizedProductRepositoryImpl implements CustomizedProductReposit
     private Query buidHqlQueryFindProduct(FilterProductDTO payload, Pageable pageable, boolean isCount){
         Map<String, Object> paramMap = new HashMap<>();
         String hqlQuery = "select p from Product p";
+
+//        if(payload.getCategoryIds()!=null && payload.getCategoryIds().size()>0){
+//            hqlQuery = "select p from Product p join p.categories c ";
+//        }
+
         if(isCount){
             hqlQuery = "select count(p) from Product p";
         }
+
+
+
+
         hqlQuery+=" where 1=1";
         if (StringUtils.isNotBlank(payload.getText())) {
             hqlQuery += "  and ( lower(p.name) like :text or  lower(u.description) like :text) ";
             paramMap.put("text", "%"+payload.getText().toLowerCase().trim()+"%");
         }
+
 //
         if (!isCount && pageable != null && pageable.getSort() != null) {
             String[] properties = {""};

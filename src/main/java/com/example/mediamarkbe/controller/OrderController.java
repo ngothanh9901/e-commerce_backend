@@ -1,11 +1,14 @@
 package com.example.mediamarkbe.controller;
 
 import com.example.mediamarkbe.dto.CartResponse;
+import com.example.mediamarkbe.dto.OrderResponse;
 import com.example.mediamarkbe.dto.payload.AddingToCartPayload;
 import com.example.mediamarkbe.dto.payload.UpdateCartPayload;
+import com.example.mediamarkbe.dto.util.ResponseObject;
 import com.example.mediamarkbe.security.UserPrincipal;
 import com.example.mediamarkbe.service.OrderService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -43,11 +46,13 @@ public class OrderController {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         return orderService.deleteCart(id, userPrincipal.getUser().getId());
     }
-//    @DeleteMapping("/cart/{idOrder}")
-//    public ResponseEntity<String> payment(@PathVariable("idOrder") Long idOrder){
-//        orderService.payment(idOrder);
-//        return ResponseEntity.ok("Payment successfully");
-//    }
 
+    @GetMapping
+    public ResponseObject<OrderResponse> getOrder(Pageable pageable){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        return null;
+
+    }
 
 }
