@@ -8,19 +8,22 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import com.example.mediamarkbe.model.User;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 @ToString
 @Builder
 @Data
-public class UserPrincipal implements UserDetails {
+public class UserPrincipal implements OAuth2User,UserDetails {
     private User user;
 
     private Collection<? extends GrantedAuthority> authorities;
+    private Map<String, Object> attributes;
 
     public static UserPrincipal create(User user) {
         Collection<Role> roles = user.getRoles() != null ? user.getRoles():null;
@@ -30,6 +33,15 @@ public class UserPrincipal implements UserDetails {
                 }).collect(Collectors.toList()))
                 .build();
     }
+
+    public static UserPrincipal create(User user, Map<String, Object> attributes) {
+        UserPrincipal userPrincipal = UserPrincipal.create(user);
+        userPrincipal.setAttributes(attributes);
+        return userPrincipal;
+    }
+
+
+
 
     public Long getId() {
         return user.getId();

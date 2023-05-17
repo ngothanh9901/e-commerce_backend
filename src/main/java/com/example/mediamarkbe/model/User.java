@@ -1,5 +1,6 @@
 package com.example.mediamarkbe.model;
 
+import com.example.mediamarkbe.common.enumeration.AuthProvider;
 import com.example.mediamarkbe.model.support.UserDateAudit;
 
 import lombok.AllArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
@@ -36,6 +38,12 @@ public class User extends UserDateAudit {
     private Integer loginTimes = 0;
 
     private int loginFailedTimes = 0;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private AuthProvider provider;
+    private String providerId;
+    private String imageUrl;
 
     public User(Long id, String username){
         this.id=id;
