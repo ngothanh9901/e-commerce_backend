@@ -54,5 +54,11 @@ public class OrderController {
         return null;
 
     }
-
+    @GetMapping("/cart/history")
+    public ResponseEntity<Object> getHistory(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        Object response = orderService.cartHistory(userPrincipal.getUser().getId());
+        return ResponseEntity.ok(response);
+    }
 }

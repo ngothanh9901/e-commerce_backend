@@ -20,6 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -102,5 +104,16 @@ public class OrderServiceImpl implements OrderService{
         double sum = productList.stream().mapToDouble(p->{return p.getQuantity()*p.getPrice();}).sum();
 
         return new CartResponse(productList,sum,orders.getId());
+    }
+
+    @Override
+    public List<CartResponse> cartHistory(Long userId){
+        List<CartResponse> cartHistoryData = new ArrayList<>();
+        List<Orders> orders = orderRepository.findByUserId(userId);
+        for(Orders x : orders){
+            CartResponse data = this.cart(x);
+            cartHistoryData.add(data);
+        }
+        return cartHistoryData;
     }
 }

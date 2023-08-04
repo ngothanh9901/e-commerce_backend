@@ -6,6 +6,9 @@ import com.example.mediamarkbe.dto.filter.FilterProductDTO;
 import com.example.mediamarkbe.dto.payload.AddingToCartPayload;
 import com.example.mediamarkbe.dto.payload.UpdateCartPayload;
 import com.example.mediamarkbe.dto.util.ResponseObject;
+
+import java.util.List;
+
 import org.springframework.data.domain.Pageable;
 
 public interface OrderService {
@@ -15,4 +18,6 @@ public interface OrderService {
     CartResponse deleteCart(Long productCartId, Long userId);
 
     ResponseObject<CartResponse> findOrder(Pageable pageable);
+
+    List<CartResponse> cartHistory(Long id);
 }

@@ -10,5 +10,6 @@ import org.springframework.data.domain.Pageable;
 public interface ProductService {
     ResponseObject<ProductResponse> findProduct(FilterProductDTO payload, Pageable pageable);
     Product add(ProductPayload payload,Long id);
+    Product getDetail(Long id);
     ProductResponse mapToDTO (Product product);
 }
