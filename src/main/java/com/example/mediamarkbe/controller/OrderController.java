@@ -21,11 +21,10 @@ public class OrderController {
 
     private final OrderService orderService;
     @PostMapping
-    public ResponseEntity<String> addToCart (@RequestBody AddingToCartPayload payload){
+    public CartResponse addToCart (@RequestBody AddingToCartPayload payload){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        orderService.addToCart(payload,userPrincipal.getUser().getId());
-        return ResponseEntity.ok("Add success");
+        return orderService.addToCart(payload,userPrincipal.getUser().getId());
     }
 
     @GetMapping("/cart")
@@ -56,3 +55,4 @@ public class OrderController {
     }
 
 }
+

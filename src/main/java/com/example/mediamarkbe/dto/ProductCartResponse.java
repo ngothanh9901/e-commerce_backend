@@ -11,9 +11,11 @@ import lombok.NoArgsConstructor;
 public class ProductCartResponse extends ProductResponse{
     private Long quantity;
     private Long productCartId;
+    private Double totalOfProductType;
 
     public static ProductCartResponse mapToDTO(Product product){
         ProductCartResponse productCartResponse = new ProductCartResponse();
+        productCartResponse.setId(product.getId());
         productCartResponse.setName(product.getName());
         productCartResponse.setPrice(product.getPrice());
         productCartResponse.setImageLink(product.getImageLink());

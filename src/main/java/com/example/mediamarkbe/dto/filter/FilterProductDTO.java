@@ -8,4 +8,8 @@ import java.util.List;
 public class FilterProductDTO {
     String text;
     List<Long> categoryIds;
+
+    public boolean isNull(){
+        return (text==null && categoryIds==null);
+    }
 }

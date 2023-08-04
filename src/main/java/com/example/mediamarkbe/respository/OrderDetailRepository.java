@@ -10,11 +10,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface OrderDetailRepository extends JpaRepository<OrderDetail,Long> {
-    @Modifying
-    @Query("update OrderDetail o set o.quantity = :quantity where o.id = :id")
-    void updateQuantity(@Param(value = "id") Long id, @Param(value = "quantity") Long quantity);
+//    @Modifying
+//    @Query("update OrderDetail o set o.quantity = :quantity where o.id = :id")
+//    void updateQuantity(@Param(value = "id") Long id, @Param(value = "quantity") Long quantity);
 
     boolean existsByProductAndOrders(Product product, Orders order);
-    OrderDetail findByProductAndAndOrders(Product product, Orders order);
+    OrderDetail findByProductAndOrders(Product product, Orders order);
 
 }

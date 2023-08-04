@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class Orders extends DateAudit {
 
     @OneToMany(mappedBy="orders")
     @JsonIgnore
+    @ToString.Exclude
     private List<OrderDetail> orderDetailList = new ArrayList<>();
 
     public Orders(User user){

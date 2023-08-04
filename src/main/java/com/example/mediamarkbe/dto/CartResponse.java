@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 public class CartResponse {
     private List<ProductCartResponse> products;
+    private Long quantity;
     private Double sum;
     private Long idOrder;
 }

@@ -32,7 +32,7 @@ public class OrderServiceImpl implements OrderService{
     private final UserRepository userRepository;
     private final OrderDetailRepository orderDetailRepository;
     private final ProductService productService;
-    @Transactional
+
     public CartResponse addToCart(AddingToCartPayload payload,Long userId){
         Long productId = payload.getProductId();
         Product product = productRepository.findById(productId).get();
@@ -43,14 +43,16 @@ public class OrderServiceImpl implements OrderService{
 
         boolean check = orderDetailRepository.existsByProductAndOrders(product,order);
 
-        OrderDetail orderDetail = check ? orderDetailRepository.findByProductAndAndOrders(product,order):new OrderDetail(product,order,0L);
+        OrderDetail orderDetail = check ? orderDetailRepository.findByProductAndOrders(product,order):new OrderDetail(product,order,0L);
         orderDetail.setQuantity(orderDetail.getQuantity()+1);
 
         orderDetailRepository.save(orderDetail);
-        order.getOrderDetailList().add(orderDetail);
-        return getCart(userId);
+
+        CartResponse data = getCart(userId);
+
+        return data;
     }
-    @Transactional
+
     public CartResponse getCart(Long userId){
         User user = userRepository.findById(userId).get();
         boolean check = orderRepository.existsByStatusAndUser(false,user);
@@ -73,10 +75,18 @@ public class OrderServiceImpl implements OrderService{
         }
         return new CartResponse();
     }
-    @Transactional
+
     public CartResponse updateCart(UpdateCartPayload payload, Long userId){
-        orderDetailRepository.updateQuantity(payload.getProductCartId(),payload.getQuantity());
-        return getCart(userId);
+
+        if (payload.getQuantity() > 0) {
+            OrderDetail orderDetail = orderDetailRepository.findById(payload.getProductCartId()).get();
+            orderDetail.setQuantity(payload.getQuantity());
+            orderDetailRepository.save(orderDetail);
+        } else {
+            orderDetailRepository.deleteById(payload.getProductCartId());
+        }
+        CartResponse data = getCart(userId);
+        return data;
     }
 
     public CartResponse deleteCart(Long productCartId, Long userId){
@@ -96,11 +106,15 @@ public class OrderServiceImpl implements OrderService{
             ProductCartResponse productCartResponse = new ProductCartResponse().mapToDTO(x.getProduct());
             productCartResponse.setQuantity(x.getQuantity());
             productCartResponse.setProductCartId(x.getId());
+
+            Double totalOfProductType = x.getPrice()!=null ? x.getQuantity()*x.getPrice() : x .getProduct().getPrice()*x.getQuantity();
+            productCartResponse.setTotalOfProductType( totalOfProductType);
             return productCartResponse;
         }).collect(Collectors.toList());;
 
         double sum = productList.stream().mapToDouble(p->{return p.getQuantity()*p.getPrice();}).sum();
+        Long quantity = productList.stream().mapToLong(p->{return p.getQuantity();}).sum();
 
-        return new CartResponse(productList,sum,orders.getId());
+        return new CartResponse(productList,quantity,sum,orders.getId());
     }
 }

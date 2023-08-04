@@ -26,6 +26,7 @@ public class User extends UserDateAudit {
     @Size(max=200)
     private String name;
     private String email;
+    private String avatar;
     @NotBlank
     @Size(max=100)
     private String username;

@@ -11,6 +11,8 @@ import com.example.mediamarkbe.respository.ProductRepository;
 import com.example.mediamarkbe.service.ProductService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Slf4j
 public class ProductServiceImpl implements ProductService {
+    private final CacheManager cacheManager;
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     @Override
@@ -46,6 +49,9 @@ public class ProductServiceImpl implements ProductService {
             product.setCategories(categories);
         }
         productRepository.save(product);
+
+        evictAllCacheValues("product");
+
         return product;
     }
 
@@ -57,6 +63,17 @@ public class ProductServiceImpl implements ProductService {
         productResponse.setImageLink(product.getImageLink());
         productResponse.setShortDes(product.getShortDes());
         productResponse.setId(product.getId());
+        productResponse.setDescription(product.getDescription());
         return productResponse;
+    }
+
+    @Override
+    public ProductResponse getProductDetail(Long id) {
+        Product product = productRepository.findById(id).get();
+        return mapToDTO(product);
+    }
+
+    public void evictAllCacheValues(String cacheName) {
+        cacheManager.getCache(cacheName).clear();
     }
 }

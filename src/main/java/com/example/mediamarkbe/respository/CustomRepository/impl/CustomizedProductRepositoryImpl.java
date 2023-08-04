@@ -35,7 +35,7 @@ public class CustomizedProductRepositoryImpl implements CustomizedProductReposit
 
         hqlQuery+=" where 1=1";
         if (StringUtils.isNotBlank(payload.getText())) {
-            hqlQuery += "  and ( lower(p.name) like :text or  lower(u.description) like :text) ";
+            hqlQuery += "  and ( lower(p.name) like :text or  lower(p.description) like :text) ";
             paramMap.put("text", "%"+payload.getText().toLowerCase().trim()+"%");
         }
 

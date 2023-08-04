@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -21,11 +22,13 @@ public class OrderDetail extends DateAudit {
     private Long quantity;
     @ManyToOne
     @JoinColumn(name = "order_id",referencedColumnName = "id")
+    @ToString.Exclude
     private Orders orders;
 
     @ManyToOne
     @JoinColumn(name = "product_id",referencedColumnName = "id")
     @JsonIgnore
+    @ToString.Exclude
     private Product product;
 
     public OrderDetail(Product product,Orders order,Long quantity){

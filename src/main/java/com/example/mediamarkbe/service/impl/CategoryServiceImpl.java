@@ -6,6 +6,7 @@ import com.example.mediamarkbe.respository.CategoryRepository;
 import com.example.mediamarkbe.service.CategoryService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -33,4 +34,5 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.save(category);
         return category;
     }
+
 }

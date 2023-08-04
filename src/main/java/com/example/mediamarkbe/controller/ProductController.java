@@ -32,4 +32,9 @@ public class ProductController {
         Product product = productService.add(payload, payload.getId());
         return ResponseEntity.ok(product);
     }
+
+    @GetMapping("/{id}")
+    public ProductResponse getProductDetail(@PathVariable("id") Long id){
+        return productService.getProductDetail(id);
+    }
 }
